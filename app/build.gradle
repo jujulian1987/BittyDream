@@ -10,10 +10,19 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("bittydream.keystore")
+            keyAlias "BittyDream"
+        }
+    }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -23,5 +32,22 @@ dependencies {
     compile 'com.xeiam.xchange:xchange-core:1.10.0'
     compile 'com.xeiam.xchange:xchange-btce:1.10.0'
     compile 'com.xeiam.xchange:xchange-bitstamp:1.10.0'
+    compile 'com.xeiam.xchange:xchange-kraken:1.10.0'
+    compile 'com.xeiam.xchange:xchange-bitcoincharts:1.10.0'
+    compile 'com.xeiam.xchange:xchange-btcchina:1.10.0'
     compile 'com.jakewharton:butterknife:4.0.0'
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if(taskGraph.hasTask(':app:assembleRelease')) {
+        def passStore = System.console().readPassword("\nPlease enter store passphrase: ")
+        passStore = new String(passStore)
+
+        android.signingConfigs.release.storePassword = passStore
+
+        def passKey = System.console().readPassword("\nPlease enter key passphrase: ")
+        passKey = new String(passKey)
+
+        android.signingConfigs.release.keyPassword = passKey
+    }
 }

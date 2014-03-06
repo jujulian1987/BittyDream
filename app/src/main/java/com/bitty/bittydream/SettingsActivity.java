@@ -3,6 +3,7 @@ package com.bitty.bittydream;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.Bitstamp;
@@ -102,12 +104,35 @@ public class SettingsActivity extends Activity implements AdapterView.OnItemSele
         spSymbols.setOnItemSelectedListener(this);
     }
 
+    private class UpdatePairListTask extends AsyncTask<Object, Integer, ArrayList<String>> {
+
+        @Override
+        protected ArrayList<String> doInBackground(Object... objects) {
+            ArrayList<String> newList = new ArrayList<String>();
+            try{
+            for (CurrencyPair pair : Constants.getKnownExchanges().get(currentSelectedExchange).getPollingMarketDataService().getExchangeSymbols()) {
+                if(pair.counterCurrency != null && pair.baseCurrency != null){
+                    newList.add(pair.toString());
+                }
+            }
+            }catch (ExchangeException e){
+                newList.add(getResources().getString(R.string.network_error));
+            }
+            return newList;
+        }
+
+        protected void onPostExecute(ArrayList<String> newList) {
+            symbolList.clear();
+            symbolList.addAll(newList);
+            symbolAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void updatePairList(){
         symbolList.clear();
-        for (CurrencyPair pair : Constants.getKnownExchanges().get(currentSelectedExchange).getPollingMarketDataService().getExchangeSymbols()) {
-            symbolList.add(pair.toString());
-        }
+        symbolList.add(getResources().getString(R.string.loading));
         symbolAdapter.notifyDataSetChanged();
+        new UpdatePairListTask().execute();
     }
 
     @Override

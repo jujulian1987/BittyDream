@@ -3,8 +3,13 @@ package com.bitty.bittydream;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitcoincharts.BitcoinChartsExchange;
+import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
+import com.xeiam.xchange.btcchina.BTCChina;
+import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.kraken.KrakenExchange;
 
 import java.util.ArrayList;
 
@@ -21,13 +26,20 @@ public class Constants {
         knownExchanges = new ArrayList<Exchange>();
 
         //BTCE
-        ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
-        exSpec.setSslUri("https://btc-e.com");
-        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(exSpec));
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName()));
 
         //BITSTAMP
-        ExchangeSpecification exSpecBistamp = new ExchangeSpecification(BitstampExchange.class);
-        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(exSpecBistamp));
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName()));
+
+        //KRAKEN
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName()));
+
+        //BITCOIN CHARTS
+        //TODO: IMPLEMENT
+        //knownExchanges.add((ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName())));
+
+        //BTC CHINA
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName()));
     }
 
     public static ArrayList<Exchange> getKnownExchanges(){
