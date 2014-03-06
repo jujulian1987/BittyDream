@@ -18,7 +18,7 @@ You also need to edit the file **local.properties** and change the **sdk.dir** t
 
 ##Donations
 
-You want to contribute to the project without being a dev or just say thank you for you work? Then screw paypal and send me some BTC or LTC :)!
+You want to contribute to the project without being a dev or just say thank you for your work? Then screw paypal and send me some BTC or LTC :)!
 
 - **BTC** 1LYfj4RnXynh6AMbucF2tBRjWE3D1sZ2Nn
 - **LTC** LevDBvEjkKCbVWdrDhUK7LC2cD2uMNQptd
