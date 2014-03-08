@@ -1,8 +1,9 @@
-[![Stories in Ready](https://badge.waffle.io/jujulian1987/bittydream.png?label=ready&title=Ready)](https://waffle.io/jujulian1987/bittydream)
 BittyDream
 ==========
 
 An Android Daydream which displays the current price of supported crypto currencys. BittyDream uses the great xchange library as backend.
+
+[![Stories in Ready](https://badge.waffle.io/jujulian1987/bittydream.png?label=ready&title=Progress)](https://waffle.io/jujulian1987/bittydream)
 
 ####Currently supported exchanges:
 * Bitstamp
