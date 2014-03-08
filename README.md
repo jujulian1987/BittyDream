@@ -3,6 +3,13 @@ BittyDream
 
 An Android Daydream which displays the current price of supported crypto currencys. BittyDream uses the great xchange library as backend.
 
+####Currently supported exchanges:
+* Bitstamp
+* BTC-e
+* Kraken
+* BTC China
+
+
 ##How to install
 
 If you don't want to compile it yourself or simply lag the knowledge on how to you might aswell just download the app from google play. 
