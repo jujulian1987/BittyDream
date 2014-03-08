@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/jujulian1987/bittydream.png?label=ready&title=Ready)](https://waffle.io/jujulian1987/bittydream)
 BittyDream
 ==========
 
