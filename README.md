@@ -3,6 +3,14 @@ BittyDream
 
 An Android Daydream which displays the current price of supported crypto currencys. BittyDream uses the great xchange library as backend.
 
+##How to install
+
+If you don't want to compile it yourself or simply lag the knowledge on how to you might aswell just download the app from google play. 
+
+https://play.google.com/store/apps/details?id=com.bitty.bittydream
+
+Please let me know if you need other download options. For example the apk could also be hosted here so that you can download the app through your phones browser. Simply open an issue and I will try ;)!
+
 ##How to build
 
 BittyDream uses the gradle build tool which makes compiling from source fairly easy.
