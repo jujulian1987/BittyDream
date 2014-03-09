@@ -4,12 +4,15 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsExchange;
+import com.xeiam.xchange.bitcurex.BitcurexExchange;
 import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.kraken.KrakenExchange;
+import com.xeiam.xchange.virtex.VirtExExchange;
 
 import java.util.ArrayList;
 
@@ -40,6 +43,16 @@ public class Constants {
 
         //BTC CHINA
         knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName()));
+
+        //BITCUREX
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName()));
+
+        //VIRTEX
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(VirtExExchange.class.getName()));
+
+        //CAMPBX
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName()));
+
     }
 
     public static ArrayList<Exchange> getKnownExchanges(){
