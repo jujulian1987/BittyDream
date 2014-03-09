@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bitty.bittydream.xchange.ExchangeHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
@@ -104,35 +105,22 @@ public class SettingsActivity extends Activity implements AdapterView.OnItemSele
         spSymbols.setOnItemSelectedListener(this);
     }
 
-    private class UpdatePairListTask extends AsyncTask<Object, Integer, ArrayList<String>> {
-
-        @Override
-        protected ArrayList<String> doInBackground(Object... objects) {
-            ArrayList<String> newList = new ArrayList<String>();
-            try{
-            for (CurrencyPair pair : Constants.getKnownExchanges().get(currentSelectedExchange).getPollingMarketDataService().getExchangeSymbols()) {
-                if(pair.counterCurrency != null && pair.baseCurrency != null){
-                    newList.add(pair.toString());
-                }
-            }
-            }catch (ExchangeException e){
-                newList.add(getResources().getString(R.string.network_error));
-            }
-            return newList;
-        }
-
-        protected void onPostExecute(ArrayList<String> newList) {
-            symbolList.clear();
-            symbolList.addAll(newList);
-            symbolAdapter.notifyDataSetChanged();
-        }
-    }
-
     private void updatePairList(){
         symbolList.clear();
         symbolList.add(getResources().getString(R.string.loading));
         symbolAdapter.notifyDataSetChanged();
-        new UpdatePairListTask().execute();
+        new ExchangeHelper().requestSupportedCurrencyPairsForExchange(Constants.getKnownExchanges().get(currentSelectedExchange), new ExchangeHelper.SupportedCurrencyPairsCallbackListeners() {
+            @Override
+            public void onSupportedCurrencyPairsCallback(ArrayList<CurrencyPair> currencyPairs) {
+                ArrayList<String> newList = new ArrayList<String>();
+                symbolList.clear();
+                for(CurrencyPair pair : currencyPairs){
+                    newList.add(pair.toString());
+                }
+                symbolList.addAll(newList);
+                symbolAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

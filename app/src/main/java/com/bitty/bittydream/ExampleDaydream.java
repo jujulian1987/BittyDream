@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bitty.bittydream.xchange.ExchangeHelper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
@@ -67,7 +68,18 @@ public class ExampleDaydream extends DreamService {
         exchange = Constants.getKnownExchanges().get(currentSelectedExchange);
         pollingService = exchange.getPollingMarketDataService();
 
-        new GetCurrencyPairTask().execute();
+        new ExchangeHelper().requestSupportedCurrencyPairsForExchange(exchange, new ExchangeHelper.SupportedCurrencyPairsCallbackListeners() {
+            @Override
+            public void onSupportedCurrencyPairsCallback(ArrayList<CurrencyPair> currencyPairs) {
+                if (currencyPairs.isEmpty()) {
+                    textView.setText(getResources().getString(R.string.network_error));
+                    //TODO: IMPLEMENT RETRY AFTER A CERTAIN TIMEOUT
+                    return;
+                }
+                currencyPair = currencyPairs.get(currentSelectedPair);
+                startTickerUpdate();
+            }
+        });
     }
 
     private void startTickerUpdate(){
@@ -82,36 +94,6 @@ public class ExampleDaydream extends DreamService {
                 currentTask.execute();
             }
         }, 0, 30000);
-    }
-
-    private class GetCurrencyPairTask extends AsyncTask<Object, Integer, ArrayList<CurrencyPair>> {
-
-        @Override
-        protected ArrayList<CurrencyPair> doInBackground(Object... objects) {
-            ArrayList<CurrencyPair> newList = new ArrayList<CurrencyPair>();
-            try{
-                for (CurrencyPair pair : Constants.getKnownExchanges().get(currentSelectedExchange).getPollingMarketDataService().getExchangeSymbols()) {
-                    if(pair.counterCurrency != null && pair.baseCurrency != null){
-                        newList.add(pair);
-                    }else{
-                        Log.d("GetCurrencyPairTask", pair.toString());
-                    }
-                }
-            }catch (ExchangeException e){
-                //WE DONT DO ANYTHING HERE. Instead we handle the empty list in onPostExecute
-            }
-            return newList;
-        }
-
-        protected void onPostExecute(ArrayList<CurrencyPair> newList) {
-            if(newList.isEmpty()){
-                textView.setText(getResources().getString(R.string.network_error));
-                //TODO: IMPLEMENT RETRY AFTER A CERTAIN TIMEOUT
-                return;
-            }
-            currencyPair = newList.get(currentSelectedPair);
-            startTickerUpdate();
-        }
     }
 
     private class DownloadFilesTask extends AsyncTask<Object, Integer, Ticker> {
