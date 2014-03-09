@@ -10,7 +10,9 @@ An Android Daydream which displays the current price of supported crypto currenc
 * BTC-e
 * Kraken
 * BTC China
-
+* Bitcurex
+* VirtEx
+* CampBX
 
 ##How to install
 
