@@ -3,7 +3,6 @@ package com.bitty.bittydream;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -13,18 +12,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bitty.bittydream.xchange.ExchangeHelper;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitstamp.Bitstamp;
-import com.xeiam.xchange.bitstamp.BitstampExchange;
-import com.xeiam.xchange.btce.BTCEExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 import java.util.ArrayList;
 
@@ -61,7 +52,9 @@ public class SettingsActivity extends Activity implements AdapterView.OnItemSele
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         for (Exchange exchange : Constants.getKnownExchanges()) {
-            marketList.add(exchange.getExchangeSpecification().getExchangeName());
+            String exchangeName = exchange.getExchangeSpecification().getExchangeName();
+            exchangeName = Character.toUpperCase(exchangeName.toString().charAt(0)) + exchangeName.toString().substring(1);
+            marketList.add(exchangeName);
         }
 
         marketAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, marketList);
@@ -115,7 +108,7 @@ public class SettingsActivity extends Activity implements AdapterView.OnItemSele
                 ArrayList<String> newList = new ArrayList<String>();
                 symbolList.clear();
                 for(CurrencyPair pair : currencyPairs){
-                    newList.add(pair.toString());
+                    newList.add(pair.toString().toUpperCase());
                 }
                 symbolList.addAll(newList);
                 symbolAdapter.notifyDataSetChanged();

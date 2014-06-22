@@ -2,19 +2,20 @@ package com.bitty.bittydream;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcoincharts.BitcoinChartsExchange;
 import com.xeiam.xchange.bitcurex.BitcurexExchange;
-import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
-import com.xeiam.xchange.btce.BTCEExchange;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.bter.BTERExchange;
 import com.xeiam.xchange.campbx.CampBXExchange;
+import com.xeiam.xchange.coinbase.CoinbaseExchange;
+import com.xeiam.xchange.cryptsy.CryptsyExchange;
 import com.xeiam.xchange.kraken.KrakenExchange;
-import com.xeiam.xchange.virtex.VirtExExchange;
+import com.xeiam.xchange.virtex.v2.VirtExExchange;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by julianliebl on 03.03.14.
@@ -30,6 +31,9 @@ public class Constants {
 
         //BTCE
         knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName()));
+
+        //BTER
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BTERExchange.class.getName()));
 
         //BITSTAMP
         knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName()));
@@ -52,6 +56,19 @@ public class Constants {
 
         //CAMPBX
         knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(CampBXExchange.class.getName()));
+
+        //CRYPTSY
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(CryptsyExchange.class.getName()));
+
+        //COINBASE
+        knownExchanges.add(ExchangeFactory.INSTANCE.createExchange(CoinbaseExchange.class.getName()));
+
+        Collections.sort(knownExchanges, new Comparator<Exchange>() {
+            @Override
+            public int compare(Exchange exchange, Exchange exchange2) {
+                return exchange.getClass().getName().compareTo(exchange2.getClass().getName());
+            }
+        });
 
     }
 

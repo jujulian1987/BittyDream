@@ -1,20 +1,14 @@
 package com.bitty.bittydream;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.service.dreams.DreamService;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.bitty.bittydream.xchange.ExchangeHelper;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -37,7 +31,7 @@ public class ExampleDaydream extends DreamService {
     private int currentSelectedPair;
 
 
-    TextView textView, textUpdatedView;
+    TextView pairTextView, exchangeRateTextView, lastUpdateTextView;
     Exchange exchange;
     PollingMarketDataService pollingService;
     DownloadFilesTask currentTask;
@@ -57,8 +51,9 @@ public class ExampleDaydream extends DreamService {
         //check if there was already a pair selected before
         currentSelectedPair = prefs.getInt(Constants.PREF_PAIRS, 0);
 
-        textView = (TextView) findViewById(R.id.textView);
-        textUpdatedView = (TextView) findViewById(R.id.last_updated);
+        pairTextView = (TextView) findViewById(R.id.pair);
+        exchangeRateTextView = (TextView) findViewById(R.id.exchange_value);
+        lastUpdateTextView = (TextView) findViewById(R.id.last_updated);
 
 
         init();
@@ -72,7 +67,7 @@ public class ExampleDaydream extends DreamService {
             @Override
             public void onSupportedCurrencyPairsCallback(ArrayList<CurrencyPair> currencyPairs) {
                 if (currencyPairs.isEmpty()) {
-                    textView.setText(getResources().getString(R.string.network_error));
+                    exchangeRateTextView.setText(getResources().getString(R.string.network_error));
                     //TODO: IMPLEMENT RETRY AFTER A CERTAIN TIMEOUT
                     return;
                 }
@@ -100,7 +95,7 @@ public class ExampleDaydream extends DreamService {
         protected Ticker doInBackground(Object... urls) {
             Ticker btceTicker = null;
             try {
-                btceTicker = pollingService.getTicker(currencyPair.baseCurrency, currencyPair.counterCurrency);
+                btceTicker = pollingService.getTicker(currencyPair);
             } catch (IOException e) {
                 Log.e(getClass().getSimpleName(), e.toString());
             }
@@ -112,20 +107,28 @@ public class ExampleDaydream extends DreamService {
 
         protected void onPostExecute(Ticker result) {
             if(result != null){
-                java.text.NumberFormat f = java.text.NumberFormat.getCurrencyInstance(Locale.getDefault());
-                java.util.Currency currency = java.util.Currency.getInstance(result.getLast().getCurrencyUnit().toCurrency().getCurrencyCode());
-                f.setCurrency(currency);
+                pairTextView.setText(result.getCurrencyPair().toString().toUpperCase());
 
-                textView.setText(f.format(result.getLast().getAmount().floatValue()));
+                String currencyText = "";
+                try {
+                    java.text.NumberFormat f = java.text.NumberFormat.getCurrencyInstance(Locale.getDefault());
+                    java.util.Currency currency = java.util.Currency.getInstance(result.getCurrencyPair().counterSymbol);
+                    f.setCurrency(currency);
+                    currencyText = f.format(result.getLast().floatValue());
+                }catch(Exception e){
+                    currencyText = result.getLast().toPlainString();
+                }
+
+                exchangeRateTextView.setText(currencyText);
 
                 DateFormat dateFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.getDefault());
                 if(result.getTimestamp() == null){
-                    textUpdatedView.setText(dateFormat.format(new Date()));
+                    lastUpdateTextView.setText(dateFormat.format(new Date()));
                 }else{
-                    textUpdatedView.setText(dateFormat.format(result.getTimestamp()));
+                    lastUpdateTextView.setText(dateFormat.format(result.getTimestamp()));
                 }
             }else{
-                textView.setText(getResources().getString(R.string.network_error));
+                exchangeRateTextView.setText(getResources().getString(R.string.network_error));
             }
         }
     }

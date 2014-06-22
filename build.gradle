@@ -4,8 +4,10 @@ buildscript {
     repositories {
         mavenCentral()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'com.android.tools.build:gradle:0.10.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
 

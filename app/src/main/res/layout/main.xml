@@ -2,6 +2,7 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,8 +16,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/pair"
+            tools:text="BTC/USD"
+            style="@android:style/TextAppearance.Holo.Small"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/loading"
-            android:id="@+id/textView"
+            android:id="@+id/exchange_value"
             style="@android:style/TextAppearance.Holo.Large"
             android:layout_gravity="center_horizontal"
             android:gravity="center_vertical" />
@@ -24,6 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="15:00:00"
             android:id="@+id/last_updated"
             style="@android:style/TextAppearance.Holo.Small"
             android:layout_gravity="center_horizontal"
