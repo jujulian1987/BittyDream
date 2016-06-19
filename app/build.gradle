@@ -1,43 +1,22 @@
-apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
-
-repositories {
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-}
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
-        minSdkVersion 17
-        targetSdkVersion 19
-        versionCode 3
-        versionName "1.1.0"
+        applicationId "io.razem.bittydream"
+        minSdkVersion 18
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
     }
-
-    signingConfigs {
-        release {
-            storeFile file("bittydream.keystore")
-            keyAlias "BittyDream"
-            storePassword ""
-            keyPassword ""
-        }
-    }
-
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
     }
 }
 
@@ -47,35 +26,22 @@ configurations {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    compile project(':submodules:xchange:xchange-kraken')
 
-    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.android.support:appcompat-v7:24.0.0'
 
-    compile 'com.xeiam.xchange:xchange-core:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-btce:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-bter:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-bitstamp:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-kraken:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-bitcoincharts:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-btcchina:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-bitcurex:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-cavirtex:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-campbx:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-coinbase:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-cryptsy:2.1.0-SNAPSHOT'
-    compile 'com.xeiam.xchange:xchange-cexio:2.1.0-SNAPSHOT'
-}
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
 
-gradle.taskGraph.whenReady { taskGraph ->
-    if(taskGraph.hasTask(':app:assembleRelease')) {
-        def passStore = System.console().readPassword("\nPlease enter store passphrase: ")
-        passStore = new String(passStore)
-
-        android.signingConfigs.release.storePassword = passStore
-
-        def passKey = System.console().readPassword("\nPlease enter key passphrase: ")
-        passKey = new String(passKey)
-
-        android.signingConfigs.release.keyPassword = passKey
-    }
+    compile 'org.knowm.xchange:xchange-core:4.0.0'
+    compile 'org.knowm.xchange:xchange-btce:4.0.0'
+    compile 'org.knowm.xchange:xchange-bter:4.0.0'
+    compile 'org.knowm.xchange:xchange-bitstamp:4.0.0'
+    compile 'org.knowm.xchange:xchange-bitcoincharts:4.0.0'
+    compile 'org.knowm.xchange:xchange-bitcurex:4.0.0'
+    compile 'org.knowm.xchange:xchange-cavirtex:4.0.0'
+    compile 'org.knowm.xchange:xchange-campbx:4.0.0'
+    compile 'org.knowm.xchange:xchange-coinbase:4.0.0'
+    compile 'org.knowm.xchange:xchange-cryptsy:4.0.0'
+    compile 'org.knowm.xchange:xchange-cexio:4.0.0'
 }

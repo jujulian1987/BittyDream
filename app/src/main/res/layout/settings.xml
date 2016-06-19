@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/markets" />
+        android:id="@+id/toolbar"
+        android:background="?attr/colorPrimary"/>
 
-    <Spinner
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/symbols" />
+        android:orientation="vertical"
+        android:padding="@dimen/paddingActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_daydream_settings"
-        android:id="@+id/daydream_settings"
-        android:layout_gravity="right" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spinnerWidth"
+            android:id="@+id/markets" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spinnerWidth"
+            android:id="@+id/symbols" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_daydream_settings"
+            android:id="@+id/daydream_settings"
+            android:layout_gravity="end" />
+    </LinearLayout>
 
 </LinearLayout>

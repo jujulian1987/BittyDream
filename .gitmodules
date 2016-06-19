@@ -1,0 +1,3 @@
+[submodule "submodules/xchange"]
+	path = submodules/xchange
+	url = git@github.com:razem-io/XChange.git
