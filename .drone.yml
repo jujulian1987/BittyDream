@@ -1,0 +1,12 @@
+build:
+  image: razemio/docker-android
+  commands:
+    - ./gradlew build
+publish:
+  github_release:
+    api_key: $$GITHUB_TOKEN
+    files:
+      - app/build/outputs/apk/app-release-unsigned.apk
+    checksum: sha256
+    when:
+      event: tag
