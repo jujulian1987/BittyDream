@@ -1,3 +1,5 @@
+clone:
+  recursive: true
 build:
   image: razemio/docker-android
   commands:
