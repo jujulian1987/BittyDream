@@ -3,7 +3,7 @@ BittyDream
 
 An Android Daydream which displays the current price of supported crypto currencys. BittyDream uses the great xchange library as backend.
 
-[![Stories in Ready](https://badge.waffle.io/jujulian1987/bittydream.png?label=ready&title=Progress)](https://waffle.io/jujulian1987/bittydream)
+[![Build Status](https://github.razem.io/api/badges/razem-io/BittyDream/status.svg)](https://github.razem.io/razem-io/BittyDream)[![Stories in Ready](https://badge.waffle.io/jujulian1987/bittydream.png?label=ready&title=Progress)](https://waffle.io/jujulian1987/bittydream)
 
 ####Currently supported exchanges:
 * Bitcurex
@@ -13,9 +13,7 @@ An Android Daydream which displays the current price of supported crypto currenc
 * BTER
 * CampBX
 * Coinbase
-* Cryptsy
 * Kraken
-* VirtEx
 
 ##How to install
 
