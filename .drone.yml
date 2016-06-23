@@ -3,12 +3,13 @@ clone:
 build:
   image: razemio/docker-android
   commands:
-    - ./gradlew assembleRelease
+    - ./gradlew assemble
+    - mv app/build/outputs/apk/app-debug.apk app/build/outputs/apk/BittyDream-$$DRONE_TAG.apk
 publish:
   github_release:
     api_key: $$GITHUB_TOKEN
     files:
-      - app/build/outputs/apk/app-release-unsigned.apk
+      - app/build/outputs/apk/BittyDream-$$DRONE_TAG.apk
     checksum: sha256
     when:
       event: tag
